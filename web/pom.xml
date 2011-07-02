@@ -6,10 +6,87 @@
   <packaging>war</packaging>
   <version>1.0.0</version>
   <name>Biz-Trace</name>
+  
+  <scm>
+    <connection>scm:git:https://github.com/kenspirit/c4f.git</connection>
+    <developerConnection>scm:git:https://github.com/kenspirit/c4f.git</developerConnection>
+    <tag>master</tag>
+    <url>https://github.com/kenspirit/c4f</url>
+  </scm>
+  
+  <organization>
+    <name>Core for future</name>
+    <url>http://groups.google.com/group/c4future</url>
+  </organization>
+  
+  <developers>   	  	
+   	<developer>
+      <id>jimmy</id>
+      <name>Jimmy</name>
+      <email>jjchan1976@gmail.com</email>
+      <url>https://profiles.google.com/jjchan1976</url>
+      <organization>c4future</organization>
+      <organizationUrl>http://groups.google.com/group/c4future</organizationUrl>
+      <roles>
+        <role>developer</role>
+      </roles>
+      <timezone>+8</timezone>
+      <properties>
+        <picUrl>https://profiles.google.com/jjchan1976</picUrl>
+      </properties>
+    </developer>
+    <developer>
+      <id>ken</id>
+      <name>Ken</name>
+      <email>chengusky@gmail.com</email>
+      <url>https://profiles.google.com/chengusky</url>
+      <organization>c4future</organization>
+      <organizationUrl>http://groups.google.com/group/c4future</organizationUrl>
+      <roles>
+        <role>developer</role>
+      </roles>
+      <timezone>+8</timezone>
+      <properties>
+        <picUrl></picUrl>
+      </properties>
+    </developer>
+    <developer>
+      <id>ronald</id>
+      <name>Ronald</name>
+      <email>binluo.86@gmail.com</email>
+      <url>https://profiles.google.com/binluo.86</url>
+      <organization>c4future</organization>
+      <organizationUrl>http://groups.google.com/group/c4future</organizationUrl>
+      <roles>
+        <role>developer</role>
+      </roles>
+      <timezone>+8</timezone>
+      <properties>
+        <picUrl>https://profiles.google.com/binluo.86</picUrl>
+      </properties>
+    </developer>
+    <developer>
+      <id>stephen</id>
+      <name>Stephen</name>
+      <email>chrwhy@gmail.com</email>
+      <url>https://profiles.google.com/chrwhy</url>
+      <organization>c4future</organization>
+      <organizationUrl>http://groups.google.com/group/c4future</organizationUrl>
+      <roles>
+        <role>developer</role>
+      </roles>
+      <timezone>+8</timezone>
+      <properties>
+        <picUrl>https://profiles.google.com/chrwhy</picUrl>
+      </properties>
+    </developer>
+  </developers>
+  
 	<properties>
 		<spring.version>3.0.1.RELEASE-A</spring.version>
 		<slf4j.version>1.5.6</slf4j.version>
 	</properties>
+	
   <dependencies>
 		<!-- Spring -->
 		<dependency>
