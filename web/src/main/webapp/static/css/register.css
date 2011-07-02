@@ -1,0 +1,56 @@
+.registerSection {
+	list-style: none;
+}
+
+.registerTitle {
+    font-weight: bold;
+    background-color:#96bcfb;
+    border:1px solid #DDDDDD;
+    width: 300px;
+}
+
+.registerInfo {
+    width:100%;
+    margin: 10px 0px 0px 0px;
+}
+.registerInfo ul {
+    margin:0px;
+    padding:0px;
+    width:100%;
+    display:table-row-group;
+}
+
+.registerInfo ul li {
+    display:table-cell;
+    list-style-type: none;
+}
+
+.registerInfo ul li.label {
+    width: 120px;
+}
+
+.registerInfo ul li input {
+    width: 180px;
+}
+
+.registerInfo ul li.error {
+    width: 500px;
+}
+
+.buttonSection {
+    margin:0px;
+    padding:0px;
+    width:100%;
+    list-style: none;
+    display:table-row-group;
+}
+
+.buttonSection li {
+    display:table-cell;
+    list-style-type: none;
+    width: 180px;
+}
+
+.buttonSection li.label {
+    width: 120px;
+}

@@ -1,0 +1,73 @@
+body {
+    font-family: Arial, Courier New;
+    font-size: 13px;
+    cursor: auto;
+}
+
+.label {
+    color: blue;
+    font-family : Arial, Courier New;
+    font-size : 13px;
+    text-align : right;
+    height : 21px;
+    padding-right : 8px;
+}
+
+input[type=text] {
+    font-family : Arial, Courier New;
+    font-size : 13px;
+    height : 21px;
+    width : 100px;
+}
+
+.mandatory {
+    /*border-right : solid 2px red;*/
+    background : url("../images/mandatory.jpg") no-repeat center right;
+}
+
+a {
+    cursor: pointer;
+}
+/**
+#header {
+    clear:both;
+    width:100%;
+    background-color:#FBFBFB;
+    border:1px solid #B7B7B7;
+}
+#header ul {
+    margin:0px;
+    padding:0px;
+    width:100%;
+    display:table-row-group;
+    cursor:pointer;
+}
+#header ul li{
+    float:left;
+    margin:0px;
+    padding:0 3px 0 10px;
+    display:table-cell;
+    list-style:none;
+}
+*/
+
+#moduleButtons {
+    clear:both;
+    width:100%;
+    background-color:#FBFBFB;
+    border:1px solid #B7B7B7;
+}
+#moduleButtons ul {
+    margin:0px;
+    padding:0px;
+    width:100%;
+    display:table-row-group;
+    cursor:pointer;
+}
+#moduleButtons ul li{
+    float:left;
+    margin:0px;
+    padding:0 3px 0 10px;
+    display:table-cell;
+    list-style:none;
+}

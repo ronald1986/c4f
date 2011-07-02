@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Application context definition for Biz-Trace on Hibernate.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:p="http://www.springframework.org/schema/p"
+        xmlns:context="http://www.springframework.org/schema/context"
+		xmlns:tx="http://www.springframework.org/schema/tx"
+		xmlns:mvc="http://www.springframework.org/schema/mvc"
+		xmlns:aop="http://www.springframework.org/schema/aop"
+		xsi:schemaLocation="
+			http://www.springframework.org/schema/beans
+			http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+			http://www.springframework.org/schema/context
+			http://www.springframework.org/schema/context/spring-context-3.0.xsd
+			http://www.springframework.org/schema/tx
+			http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+			http://www.springframework.org/schema/mvc
+            http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+            http://www.springframework.org/schema/aop
+            http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+
+	<!-- ========================= RESOURCE DEFINITIONS ========================= -->
+    <!--
+        - The controllers are autodetected POJOs labeled with the @Controller annotation.
+    -->
+    <context:component-scan base-package="com.biztrace"/>
+    
+    <!-- 
+        Customization on Spring MVC configuration cannot co-exists with this tag.
+        Strange error might happen if so.
+        http://forum.springsource.org/showthread.php?t=81238
+        https://jira.springsource.org/browse/SPR-6306
+    <mvc:annotation-driven/>
+     -->
+
+    <!-- =================== Start of unrolled the mvn:annotation-driven =================== -->
+    <!-- HANDLER MAPPING RULES -->
+    <!-- Maps requests to @Controllers based on @RequestMapping("path") annotation values
+         If no annotation-based path mapping is found, Spring MVC sends a 404 response and logs a pageNotFound warning. -->
+    <bean id="simpleUrl" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+        <property name="order" value="1" />
+        <property name="mappings">
+            <value>
+            /=loginController
+            /login=loginController
+            </value>
+        </property>
+    </bean>
+
+    <bean id="annotation" class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
+        <property name="order" value="2" />
+        <property name="interceptors">
+            <list>
+                 <ref bean="sessionUserAuthenticationInterceptor"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- REGISTERED HANDLER TYPES -->
+
+    <!-- Enables annotated @Controllers; responsible for invoking an annotated POJO @Controller when one is mapped. -->
+    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+        <!-- Configures Spring MVC DataBinder instances globally
+        <property name="webBindingInitializer">
+            <bean class="org.springframework.web.bind.support.ConfigurableWebBindingInitializer">
+                <property name="conversionService" ref="conversionService" />
+                <property name="validator" ref="validator" />
+            </bean>
+        </property>
+        -->
+        <property name="messageConverters">
+            <list>
+                <bean id="mappingJacksonHttpMessageConverter"
+                      class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
+                    <property name="supportedMediaTypes">
+                        <list>
+                          <bean class="org.springframework.http.MediaType">
+                              <constructor-arg index="0" value="application"/>
+                              <constructor-arg index="1" value="json"/>
+                              <constructor-arg index="2" value="UTF-8"/>
+                          </bean>
+                        </list>
+                    </property>
+                </bean>
+                <bean id="formHttpMessageConverter"
+                    class="org.springframework.http.converter.FormHttpMessageConverter">
+               </bean>
+               <bean id="stringHttpMessageConverter"
+                    class="org.springframework.http.converter.StringHttpMessageConverter">
+               </bean>
+               <bean id="byteArrayHttpMessageConverter"
+                    class="org.springframework.http.converter.ByteArrayHttpMessageConverter">
+               </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- FIELD TYPE CONVERSION AND VALIDATION -->
+    
+    <!-- Enables the Spring 3 Type Conversion system that uses Joda Time Formatting for Date/Time types
+    <bean id="conversionService" class="org.springframework.samples.petclinic.util.PetclinicConversionServiceFactory" />
+     -->
+    
+    <!-- Configures JSR-303 Declarative Validation with default provider on classpath (Hibernate Validator) -->
+    <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
+    <!-- =================== End of unrolled the mvn:annotation-driven =================== -->
+
+    <!--
+        - The form-based controllers within this application provide @RequestMapping 
+        - annotations at the type level for path mapping URLs and @RequestMapping 
+        - at the method level for request type mappings (e.g., GET and POST). 
+        - In contrast, ClinicController - which is not form-based - provides 
+        - @RequestMapping only at the method level for path mapping URLs.
+        -
+        - DefaultAnnotationHandlerMapping is driven by these annotations and is 
+        - enabled by default with Java 5+.
+    -->
+
+    <!--
+        - This bean resolves specific types of exceptions to corresponding logical 
+        - view names for error views. The default behaviour of DispatcherServlet 
+        - is to propagate all exceptions to the servlet container: this will happen 
+        - here with all other types of exceptions.
+    -->
+    <bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+        <property name="exceptionMappings">
+            <props>
+                <prop key="com.biztrace.exception.PageNotFoundException">pageNotFound</prop>
+                <prop key="org.springframework.dao.DataAccessException">dataAccessFailure</prop>
+                <prop key="org.springframework.transaction.TransactionException">dataAccessFailure</prop>
+            </props>
+        </property>
+        <property name="defaultErrorView"><value>uncaughtException</value></property>
+    </bean>
+
+    <!--
+        - This bean configures the 'prefix' and 'suffix' properties of
+        - InternalResourceViewResolver, which resolves logical view names
+        - returned by Controllers. For example, a logical view name of "vets"
+        - will be mapped to "/WEB-INF/jsp/vets.jsp".
+        - It will always return a view and so need to be put to last.
+    -->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+        <property name="prefix" value="/WEB-INF/views/jsp/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+    <!--
+        - Message source for this context, loaded from localized "messages_xx" files.
+        - Could also reside in the root application context, as it is generic,
+        - but is currently just used within PetClinic's web tier.
+    -->
+    <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource"
+            p:basename="messages"/>
+
+    <!-- import the dataSource definition -->
+    <!-- import resource="applicationContext-dataSource.xml"/-->
+    <import resource="applicationContext-dataSource-mongodb.xml"/>
+    
+    <bean id="user" class="com.biztrace.web.security.model.User" scope="session">
+	   <aop:scoped-proxy/>
+	</bean>
+</beans>

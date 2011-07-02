@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+<class entity-name="Codelist" table="codelist">
+    <tuplizer entity-mode="dynamic-map" class="com.biztrace.dao.GenericEntityTuplizer"/>
+
+    <id name="id" type="string"><column name="id" sql-type="char(32)"/><generator class="assigned" /></id>
+
+    <version name="version" type="integer" unsaved-value="null"><column name="version" sql-type="integer"/></version>
+
+    <property name="orgId" type="string"><column name="org_id" sql-type="char32)"/></property>
+
+    <property name="orgCode" type="string"><column name="org_code" sql-type="varchar(20)"/></property>
+
+    <property name="name" type="string"><column name="name" sql-type="varchar(20)"/></property>
+
+    <property name="description" type="string"><column name="description" sql-type="varchar(200)"/></property>
+
+    <set name="items" cascade="all" order-by="id">
+        <key column="codelist_id" not-null="true" />
+        <one-to-many entity-name="CodelistItem" />
+    </set>
+
+    <property name="createUserId" type="string"><column name="CREATE_USER_ID" sql-type="char(32)"/></property>
+
+    <property name="createUser" type="string"><column name="CREATE_USER" sql-type="NVARCHAR2(80)"/></property>
+
+    <property name="createDate" type="timestamp"><column name="CREATE_DATE" sql-type="timestamp"/></property>
+
+    <property name="updateUserId" type="string"><column name="UPDATE_USER_ID" sql-type="char(32)"/></property>
+
+    <property name="updateUser" type="string"><column name="UPDATE_USER" sql-type="NVARCHAR2(80)"/></property>
+
+    <property name="updateDate" type="timestamp"><column name="UPDATE_DATE" sql-type="timestamp"/></property>
+
+</class>
+
+<class entity-name="CodelistItem" table="codelist_item">
+    <tuplizer entity-mode="dynamic-map" class="com.biztrace.dao.GenericEntityTuplizer" />
+
+    <id name="id" type="string"><column name="ID" sql-type="char(32)"/><generator class="assigned" /></id>
+
+    <version name="version" type="int" unsaved-value="null"><column name="VERSION" sql-type="NUMBER(9,0)"/></version>
+
+    <property name="parentId" type="string" update="false" insert="false"><column name="PARENT_ID" sql-type="char(32)"/></property>
+
+    <property name="code" type="string"><column name="CODE" sql-type="NVARCHAR2(255)"/></property>
+
+    <property name="name" type="string"><column name="NAME" sql-type="NVARCHAR2(500)"/></property>
+
+    <property name="lineNo" type="int"><column name="LINE_NO" sql-type="NUMBER(9,0)"/></property>
+
+    <property name="status" type="string"><column name="STATUS" sql-type="CHAR(1)"/></property>
+
+    <property name="ref1" type="string"><column name="REF_1" sql-type="NVARCHAR2(100)"/></property>
+</class>
+
+</hibernate-mapping>
